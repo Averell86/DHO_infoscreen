@@ -3,30 +3,45 @@
 <head>
     <title>Canteen Display</title>
     <style>
-        body { background-color: #111; color: white; font-family: sans-serif; text-align: center; padding-top: 20%; font-size: 24px; }
+        html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #000; }
+        iframe { width: 100%; height: 100%; border: none; display: none; }
+        iframe.active { display: block; }
     </style>
     <script>
-        // --- PAS HIERONDER DE LINKS AAN ---
-        const page1 = "https://test-odooquotepic.odoo.com/odoo/employees-planning";
-        const page2 = "https://test-odooquotepic.odoo.com/odoo/action-1099";
-        const interval = 30000; // Tijd in milliseconden (30000 = 30 seconden)
-        // ----------------------------------
+        // --- PLAK HIER JOUW LINKS ---
+        // VOEG '&embed=true' OF '?embed=true' TOE AAN HET EINDE VAN JE ODOO URL'S
+        const page1 = "https://test-odooquotepic.odoo.com/odoo/employees-planning&embed=true";
+        const page2 = "https://test-odooquotepic.odoo.com/odoo/action-1099&embed=true";
+        const rotationTime = 10000; // 10 seconden per pagina
+        // ----------------------------
 
         window.onload = function() {
-            // Controleer welke pagina er nu moet draaien
-            const current = localStorage.getItem("canteen_tab") || "page1";
+            const frame1 = document.getElementById('frame1');
+            const frame2 = document.getElementById('frame2');
             
-            if (current === "page1") {
-                localStorage.setItem("canteen_tab", "page2");
-                setTimeout(() => { window.location.href = page1; }, 2000);
-            } else {
-                localStorage.setItem("canteen_tab", "page1");
-                setTimeout(() => { window.location.href = page2; }, 2000);
-            }
-        }
+            // Laad alvast beide pagina's in de achtergrond
+            frame1.src = page1;
+            frame2.src = page2;
+
+            let showPage1 = true;
+
+            setInterval(function() {
+                if (showPage1) {
+                    frame1.classList.remove('active');
+                    frame2.classList.add('active');
+                    frame1.src = page1; // Ververs in de achtergrond voor live data
+                } else {
+                    frame2.classList.remove('active');
+                    frame1.classList.add('active');
+                    frame2.src = page2; // Ververs in de achtergrond voor live data
+                }
+                showPage1 = !showPage1;
+            }, rotationTime);
+        };
     </script>
 </head>
 <body>
-    Loading Odoo Dashboard... One moment please.
+    <iframe id="frame1" class="active"></iframe>
+    <iframe id="frame2"></iframe>
 </body>
 </html>
