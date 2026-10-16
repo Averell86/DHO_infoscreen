@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canteen Display</title>
+    <style>
+        body { background-color: #111; color: white; font-family: sans-serif; text-align: center; padding-top: 20%; font-size: 24px; }
+    </style>
+    <script>
+        // --- PAS HIERONDER DE LINKS AAN ---
+        const page1 = "https://test-odooquotepic.odoo.com/odoo/employees-planning";
+        const page2 = "https://test-odooquotepic.odoo.com/odoo/action-1099";
+        const interval = 30000; // Tijd in milliseconden (30000 = 30 seconden)
+        // ----------------------------------
+
+        window.onload = function() {
+            // Controleer welke pagina er nu moet draaien
+            const current = localStorage.getItem("canteen_tab") || "page1";
+            
+            if (current === "page1") {
+                localStorage.setItem("canteen_tab", "page2");
+                setTimeout(() => { window.location.href = page1; }, 2000);
+            } else {
+                localStorage.setItem("canteen_tab", "page1");
+                setTimeout(() => { window.location.href = page2; }, 2000);
+            }
+        }
+    </script>
+</head>
+<body>
+    Loading Odoo Dashboard... One moment please.
+</body>
+</html>
